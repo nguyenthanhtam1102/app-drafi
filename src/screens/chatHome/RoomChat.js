@@ -6,6 +6,7 @@ import { Ionicons, Entypo } from '@expo/vector-icons';
 import {chatWithDoraemon} from "../../dataDemo/DataDemo";
 import {MessageChatSender, MessageChatReceiver} from "../../component/MessageChat";
 import FileViewer from 'react-native-file-viewer'
+import useListAllMessages from "../../api/useListAllMessages";
 
 
 
@@ -32,6 +33,21 @@ const handleCallVideo= () =>{
 //xử lý button mở setting room
 
 function RoomChat({navigation}) {
+    // const { participants, isLoadingParticipants } = useListParticipants('a7441827-3ac8-49f8-b7e8-80bfd498b5f9');
+    // const [messageList, setMessageList] = useState([]);
+    const roomName = 'Nguyen Thanh Tam';
+    const userId = 'a7441827-3ac8-49f8-b7e8-80bfd498b5f9';
+    const { messages, isLoadingAllMessage } = useListAllMessages('4c988df1-d80f-4469-9f42-5a8d5ba14653');
+
+    console.log('ALL MESSAGES', messages);
+
+    // useEffect(() => {
+    //     if(participants) {
+    //         setMessageList(participants.messages);
+    //     }
+    // }, [participants]);
+    //
+    // console.log('MESSAGE LIST', messageList);
 
     const [sendMessage, setSendMessage] = useState("");
     const [hiddenSend, setHiddenSend] = useState(true);
@@ -69,7 +85,7 @@ function RoomChat({navigation}) {
                 </TouchableOpacity>
                 <View style={styles.bodyTitle}>
                     <Text style={{fontSize:18, fontWeight:"bold", color:'white'}}>
-                        {receiver.displayName}
+                        {roomName}
                     </Text>
                     <Text style={{fontSize:12, color:'#DDDDDD'}}>
                         Đang hoạt động
@@ -100,12 +116,12 @@ function RoomChat({navigation}) {
 
             {/*Chat Box*/}
             <ScrollView style={styles.bodyChat}>
-                {messageList.map((item)=>(
-                    <View key={item.id}>
-                        {item.u.username === user.username ?(
-                            <MessageChatSender msg={item.msg}/>
+                {messages && messages?.length > 0 && messages.map((item)=>(
+                    <View key={item.messageId}>
+                        {item.senderId === userId ?(
+                            <MessageChatSender msg={item.content}/>
                         ) : (
-                            <MessageChatReceiver msg={item.msg}/>
+                            <MessageChatReceiver msg={item.content}/>
                         )}
                     </View>
                 ))}
