@@ -2,6 +2,7 @@ import {Image, ImageBackground, Text, TouchableOpacity, View} from "react-native
 import {styles} from "../../css/userpage/PersonalPage";
 import {personData} from "../../dataDemo/DataDemo";
 import {FontAwesome, AntDesign, Feather} from "@expo/vector-icons";
+import myUser from "../chatHome/MyUser";
 
 //Dữ liệu user trong trang cá nhân
 const person = personData;
@@ -47,7 +48,7 @@ function PersonalPage({navigation}) {
             <View style={styles.avatarView}>
                 <View style={styles.behindAvatar}>
                     <Image
-                        source={require('../../image/chatHome/doraemon.png')}
+                        source={person.image}
                         style={styles.avatarImage}
                     />
                 </View>
