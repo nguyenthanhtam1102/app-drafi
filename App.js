@@ -17,6 +17,7 @@ import MyUser from "./src/screens/chatHome/MyUser";
 import SettingRoom from "./src/screens/chatHome/SettingRoom";
 import FriendRequest from "./src/screens/chatHome/FriendRequest";
 import PersonalPage from "./src/screens/userpage/PersonalPage";
+import FindUser from "./src/screens/userpage/FindUser";
 
 
 const Stack = createNativeStackNavigator();
@@ -36,6 +37,7 @@ export default function App() {
           <Stack.Screen name="SettingRoom" component={SettingRoom} options={{ headerShown: false, }}/>
           <Stack.Screen name="FriendRequest" component={FriendRequest} options={{ headerShown: false, }}/>
           <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
+          <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>
 
       </Stack.Navigator>
     </NavigationContainer>

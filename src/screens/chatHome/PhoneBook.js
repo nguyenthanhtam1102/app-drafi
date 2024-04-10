@@ -20,7 +20,10 @@ function PhoneBook({navigation}){
             <View style={styles.findChat}>
                 <FontAwesome name="search" size={24} color="white" />
                 <TextInput style={styles.findChatInput} placeholder={"Search"} placeholderTextColor={"#EEEEEE"}/>
-                <TouchableOpacity style={styles.plusUserPlus}>
+                <TouchableOpacity
+                    style={styles.plusUserPlus}
+                    onPress={()=>{navigation.navigate("FindUser")}}
+                >
                     <FontAwesome name="user-plus" size={24} color="white" />
                 </TouchableOpacity>
             </View>
