@@ -6,6 +6,8 @@ import { Ionicons, Entypo } from '@expo/vector-icons';
 import {chatWithDoraemon} from "../../dataDemo/DataDemo";
 import {MessageChatSender, MessageChatReceiver} from "../../component/MessageChat";
 
+
+
 const messageList = chatWithDoraemon;
 const user = {
     username:"Tai",
@@ -31,13 +33,11 @@ const handleCallVideo= () =>{
 function RoomChat({navigation}) {
 
     const [sendMessage, setSendMessage] = useState("");
-    const [hiddenSend, setHiddenSend] = useState(true);
-    useEffect(() => {
-        if(sendMessage.length !== 0){
-            setHiddenSend(false)
-        }
-        else setHiddenSend(true);
-    });
+    const [hiddenFile, setHiddenFile] = useState(true);
+    const [imageList, setImageList] = useState([]);
+
+
+    console.log(imageList)
 
 
     const handleSendMessage = () =>{
@@ -45,8 +45,10 @@ function RoomChat({navigation}) {
     }
 
     const handleOpenFile = async () =>{
-
+        setHiddenFile(!hiddenFile)
     }
+
+
 
     return(
         <View style={styles.container}>
@@ -127,6 +129,15 @@ function RoomChat({navigation}) {
                     <Ionicons name="send" size={24} color="black" />
                 </TouchableOpacity>
 
+            </View>
+            <View>
+                {hiddenFile?(
+                    <View></View>
+                ):(
+                    <View>
+                        <Text>Hello</Text>
+                    </View>
+                )}
             </View>
         </View>
     )

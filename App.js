@@ -26,7 +26,7 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={"HomeChat"}>
+      <Stack.Navigator initialRouteName={"RoomChat"}>
           <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='Register' component={Register} />
