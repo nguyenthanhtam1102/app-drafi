@@ -17,6 +17,8 @@ import FriendRequest from "./src/screens/chatHome/FriendRequest";
 import PersonalPage from "./src/screens/userpage/PersonalPage";
 import FindUser from "./src/screens/userpage/FindUser";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import SettingUser from "./src/screens/userpage/SettingUser";
+import ChangePassword from "./src/screens/userpage/ChangePassword";
 
 
 const Stack = createNativeStackNavigator();
@@ -40,7 +42,6 @@ export default function App() {
                   <Stack.Screen name="FriendRequest" component={FriendRequest} options={{ headerShown: false, }}/>
                   <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
                   <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>
-
               </Stack.Navigator>
           </NavigationContainer>
       </QueryClientProvider>
@@ -49,7 +50,7 @@ export default function App() {
 
 function MyTabs(){
   return(
-      <Tab.Navigator initialRouteName={"Chat"} >
+      <Tab.Navigator initialRouteName={"MyUser"} >
         <Tab.Screen name={"Chat"} component={HomeChat}
                     options={{
                         headerShown:false,

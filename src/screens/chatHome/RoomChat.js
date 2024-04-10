@@ -1,14 +1,12 @@
-import {FlatList, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {FlatList, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import styles from "../../css/chatHome/RoomChat";
 import { FontAwesome } from '@expo/vector-icons';
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import {chatWithDoraemon} from "../../dataDemo/DataDemo";
 import {MessageChatSender, MessageChatReceiver} from "../../component/MessageChat";
 import FileViewer from 'react-native-file-viewer'
 import useListAllMessages from "../../api/useListAllMessages";
-
-
 
 const messageList = chatWithDoraemon;
 const user = {
@@ -64,13 +62,7 @@ function RoomChat({navigation}) {
     }
 
     const handleOpenFile = async () =>{
-        const path = FileViewer.open(path) // absolute-path-to-my-local-file.
-            .then(() => {
-                // success
-            })
-            .catch((error) => {
-                // error
-            });
+
     }
 
     return(

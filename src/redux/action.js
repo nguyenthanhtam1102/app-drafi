@@ -1,4 +1,4 @@
-const setUser = (data) ->(
+const setUser = (data) =>(
     {
         type: 'Set_User',
         payload: data,
