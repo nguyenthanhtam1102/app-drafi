@@ -5,6 +5,9 @@ import {useEffect, useState} from "react";
 import { Ionicons, Entypo } from '@expo/vector-icons';
 import {chatWithDoraemon} from "../../dataDemo/DataDemo";
 import {MessageChatSender, MessageChatReceiver} from "../../component/MessageChat";
+import FileViewer from 'react-native-file-viewer'
+
+
 
 const messageList = chatWithDoraemon;
 const user = {
@@ -44,6 +47,15 @@ function RoomChat({navigation}) {
         setSendMessage("");
     }
 
+    const handleOpenFile = async () =>{
+        const path = FileViewer.open(path) // absolute-path-to-my-local-file.
+            .then(() => {
+                // success
+            })
+            .catch((error) => {
+                // error
+            });
+    }
 
     return(
         <View style={styles.container}>
@@ -111,7 +123,10 @@ function RoomChat({navigation}) {
                         onChangeText={setSendMessage}
                     />
                 </View>
-                <TouchableOpacity style={styles.sendImage}>
+                <TouchableOpacity
+                    style={styles.sendImage}
+                    onPress={handleOpenFile}
+                >
                     <Ionicons name="image-outline" size={24} color="black" />
                 </TouchableOpacity>
                 <TouchableOpacity
