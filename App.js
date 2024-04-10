@@ -1,12 +1,10 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StyleSheet, Text, View } from 'react-native';
 import HomeLogin from './src/screens/login/HomeLogin';
 import Login from "./src/screens/login/Login";
 import Register from "./src/screens/login/Register";
 import ForgotPassword from "./src/screens/login/ForgotPassword";
 import SuccessRegister from './src/screens/login/SuccessRegister';
-import {useEffect} from "react";
 import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
 import PhoneBook from "./src/screens/chatHome/PhoneBook";
 import { AntDesign } from '@expo/vector-icons';
@@ -85,11 +83,3 @@ function MyTabs(){
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

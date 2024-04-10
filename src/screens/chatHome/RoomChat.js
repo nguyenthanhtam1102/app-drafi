@@ -27,9 +27,6 @@ const handleCallVideo= () =>{
 }
 
 //xử lý button mở setting room
-const handleSettingRoom= () =>{
-
-}
 
 function RoomChat({navigation}) {
 
@@ -69,7 +66,7 @@ function RoomChat({navigation}) {
                 <View style={{flex:1, flexDirection:"row-reverse", alignItems:'center', justifyContent:'space-between'}}>
                     <TouchableOpacity
                         style={{flex:1}}
-                        onPress={handleSettingRoom}
+                        onPress={()=>{navigation.navigate("SettingRoom")}}
                     >
                         <Entypo name="menu" size={35} color="white" />
                     </TouchableOpacity>
