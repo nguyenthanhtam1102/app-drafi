@@ -17,26 +17,26 @@
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
+    "@tanstack/react-query": "^5.29.0",
     "axios": "^1.6.8",
     "expo": "^49.0.23",
     "expo-status-bar": "~1.11.1",
     "file-picker": "^0.1.8",
     "file-selector": "^0.6.0",
     "firebase": "^10.10.0",
-    "path-browserify": "^1.0.1",
+    "moment-timezone": "^0.5.45",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^5.0.1",
     "react-native": "0.73.6",
     "react-native-document-picker": "^9.1.1",
     "react-native-file-viewer": "^2.1.5",
-    "react-native-fs": "^2.20.0",
     "react-native-web": "~0.19.6",
-    "redux": "^5.0.1",
-    "web-fs": "^2.1.0"
+    "redux": "^5.0.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.0"
+    "@babel/core": "^7.20.0",
+    "@tanstack/eslint-plugin-query": "^5.28.11"
   },
   "private": true,
   "overrides": {

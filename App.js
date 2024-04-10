@@ -16,6 +16,7 @@ import SettingRoom from "./src/screens/chatHome/SettingRoom";
 import FriendRequest from "./src/screens/chatHome/FriendRequest";
 import PersonalPage from "./src/screens/userpage/PersonalPage";
 import FindUser from "./src/screens/userpage/FindUser";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import SettingUser from "./src/screens/userpage/SettingUser";
 import ChangePassword from "./src/screens/userpage/ChangePassword";
 
@@ -23,26 +24,27 @@ import ChangePassword from "./src/screens/userpage/ChangePassword";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName={"RoomChat"}>
-          <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
-          <Stack.Screen name='Login' component={Login} />
-          <Stack.Screen name='Register' component={Register} />
-          <Stack.Screen name='ForgotPassword' component={ForgotPassword} />
-          <Stack.Screen name="SuccessRegister" component={SuccessRegister} options={{ headerShown: false, }} />
-          <Stack.Screen name="HomeChat" component={MyTabs} options={{ headerShown: false, }}/>
-          <Stack.Screen name="RoomChat" component={RoomChat} options={{ headerShown: false, }}/>
-          <Stack.Screen name="SettingRoom" component={SettingRoom} options={{ headerShown: false, }}/>
-          <Stack.Screen name="FriendRequest" component={FriendRequest} options={{ headerShown: false, }}/>
-          <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
-          <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>
-          <Stack.Screen name="SettingUser" component={SettingUser} options={{ headerShown: false, }}/>
-          <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false, }}/>
-
-      </Stack.Navigator>
-    </NavigationContainer>
+      <QueryClientProvider client={queryClient}>
+          <NavigationContainer>
+              <Stack.Navigator initialRouteName={"HomeChat"}>
+                  <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
+                  <Stack.Screen name='Login' component={Login} />
+                  <Stack.Screen name='Register' component={Register} />
+                  <Stack.Screen name='ForgotPassword' component={ForgotPassword} />
+                  <Stack.Screen name="SuccessRegister" component={SuccessRegister} options={{ headerShown: false, }} />
+                  <Stack.Screen name="HomeChat" component={MyTabs} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="RoomChat" component={RoomChat} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="SettingRoom" component={SettingRoom} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="FriendRequest" component={FriendRequest} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>
+              </Stack.Navigator>
+          </NavigationContainer>
+      </QueryClientProvider>
   );
 }
 

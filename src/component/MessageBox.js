@@ -1,5 +1,6 @@
 import {styles} from "../css/component/MessageBox";
 import {Image, Text, TouchableOpacity, View} from "react-native";
+import moment from "moment-timezone";
 
 
 function MessageBox({item, navigation}) {
@@ -16,12 +17,13 @@ function MessageBox({item, navigation}) {
                 <View style={styles.content}>
                     <Text style={{fontSize:15}}>{item.displayName}</Text>
                     <Text style={{fontSize:15, color:"#AAAAAA", marginTop:10}}>
-                        {item.content.message.length > 28 ? `${item.content.message.slice(0, 28)}...` : item.content.message}
+                        {item?.content?.type === 'text' ? (item?.content?.message?.length > 28 ? `${item?.content?.message?.slice(0, 28)}...` : item?.content?.message)
+                        : (item?.content?.type === 'image' ? 'Bạn đã nhận được một hình ảnh' : (item?.content?.type === 'files' ? 'Bạn đã nhận được một file' : 'Bạn đã nhận được một tin nhắn mới'))}
                     </Text>
                 </View>
                 <View style={styles.time}>
                     <Text style={{color:"#AAAAAA"}}>
-                        23 giờ
+                        {item?.content?.timestamp ? moment(item?.content?.timestamp).format("HH:mm") : ""}
                     </Text>
                 </View>
             </View>
