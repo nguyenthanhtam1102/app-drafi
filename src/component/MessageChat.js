@@ -14,8 +14,12 @@ function MessageChatReceiver({msg}) {
                 />
             </View>
             <View style={styles.messageReceiver}>
-                <Text>{msg}</Text>
+                {msg.type === "text" && (<TextBox content={msg.content}/>)}
             </View>
+            <View >
+                {msg.type === "image" && (<ImageChat content={msg.content}/>)}
+            </View>
+
         </View>
     )
 }
@@ -23,9 +27,38 @@ function MessageChatReceiver({msg}) {
 function MessageChatSender({msg}) {
     return(
         <View style={styles.messageBoxSender}>
-            <View style={styles.messageSender}>
-                <Text>{msg}</Text>
+            {msg.type === "text" && (
+                <View style={styles.messageSenderText}>
+                    <TextBox content={msg.content}/>
+                </View>
+            )}
+            <View >
+                {msg.type === "image" && (<ImageChat content={msg.content}/>)}
             </View>
+        </View>
+    )
+}
+
+
+function TextBox({content}){
+    return(
+        <View>
+            <Text>
+                {content}
+            </Text>
+        </View>
+    )
+}
+
+function ImageChat({content}){
+
+    const image = {uri:content}
+    return(
+        <View>
+            <Image
+                source={image}
+                style={{width:100, height:100}}
+            />
         </View>
     )
 }

@@ -19,7 +19,14 @@ const styles = StyleSheet.create({
         margin:10,
         alignItems:'flex-end'
     },
-    messageSender:{
+    messageSenderText:{
+        maxWidth:"70%",
+        backgroundColor:'#CCCCFF',
+        marginLeft:5,
+        padding:10,
+        borderRadius:10,
+    },
+    messageSenderImage:{
         maxWidth:"70%",
         backgroundColor:'#CCCCFF',
         marginLeft:5,

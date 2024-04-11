@@ -1,4 +1,4 @@
-import {FlatList, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {Dimensions, FlatList, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import styles from "../../css/chatHome/RoomChat";
 import { FontAwesome } from '@expo/vector-icons';
 import {useEffect, useRef, useState} from "react";
@@ -11,6 +11,7 @@ import socket from "../../../config/SocketIOConfig";
 import { useSendMessage } from "../../api/useSendMessage";
 import MessageType from "../../constants/MessageType";
 import { v4 as uuidv4 } from 'uuid';
+import {EmojiKeyboard} from "rn-emoji-keyboard";
 
 //Xử lý button gọi điện thoại
 const handleCallPhone= () =>{
@@ -21,6 +22,9 @@ const handleCallPhone= () =>{
 const handleCallVideo= () =>{
 
 }
+
+const WIDTH = Dimensions.get('window').width;
+const HEIGHT = Dimensions.get('window').height;
 
 //xử lý button mở setting room
 
@@ -48,11 +52,39 @@ function RoomChat({navigation}) {
             content: message,
             timestamp: Date.now()
         });
+        setMessage("");
     }
 
-    const handleOpenFile = async () =>{
-
+    function importAll(r) {
+        const images = {};
+        r.keys().forEach((key) => (images[key] = r(key)));
+        return images;
     }
+    const imagesList = importAll(
+        require.context("../../image/fileChat", false, /\.(png|jpe?g|svg)$/)
+    );
+
+    console.log(imagesList);
+
+    const [openImage, setOpenImage] = useState(true);
+    const handleOpenImage = async () =>{
+        setOpenImage(!openImage)
+        setopenEmoji(false)
+    }
+
+
+
+    const [openEmoji, setopenEmoji] = useState(false);
+    const [isEmoji, setEmoji] = useState("");
+    const handleOpenEmoji = async () =>{
+        setopenEmoji(!openEmoji)
+        setOpenImage(false)
+    }
+    const selectEmoji = item =>{
+
+        setMessage((prevMessage) => prevMessage + item.emoji);
+    }
+
 
     return(
         <View style={styles.container}>
@@ -100,17 +132,27 @@ function RoomChat({navigation}) {
                 {messages && messages?.length > 0 && messages.map((item)=>(
                     <View key={item.messageId}>
                         {item.senderId === userId ?(
-                            <MessageChatSender msg={item.content}/>
+                            <MessageChatSender msg={item}/>
                         ) : (
-                            <MessageChatReceiver msg={item.content}/>
+                            <MessageChatReceiver msg={item}/>
                         )}
                     </View>
                 ))}
 
             </ScrollView>
+            <View>
+                <Text>{isEmoji}</Text>
+            </View>
+
 
             {/*Sender input*/}
             <View style={styles.textInputChat}>
+                <TouchableOpacity
+                    style={{marginRight:10}}
+                    onPress={handleOpenEmoji}
+                >
+                    <Entypo name="emoji-happy" size={24} color="black" />
+                </TouchableOpacity>
                 <View style={{flex:1, marginRight:10, marginVertical:10}}>
                     <TextInput
                         style={{fontSize:18}}
@@ -118,11 +160,15 @@ function RoomChat({navigation}) {
                         numberOfLines={2}
                         multiline={true}
                         onChangeText={setMessage}
+                        onFocus={()=>{
+                            setopenEmoji(false);
+                            setOpenImage(false);
+                        }}
                     />
                 </View>
                 <TouchableOpacity
                     style={styles.sendImage}
-                    onPress={handleOpenFile}
+                    onPress={handleOpenImage}
                 >
                     <Ionicons name="image-outline" size={24} color="black" />
                 </TouchableOpacity>
@@ -132,8 +178,29 @@ function RoomChat({navigation}) {
                 >
                     <Ionicons name="send" size={24} color="black" />
                 </TouchableOpacity>
-
             </View>
+
+            {openEmoji && (
+                <View style={{height:200}}>
+                    <ScrollView>
+                        <EmojiKeyboard onEmojiSelected={selectEmoji}/>
+                    </ScrollView>
+                </View>
+            )}
+
+            {openImage &&(
+                <ScrollView style={{height:10}}>
+                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                        {Object.entries(imagesList).map(([key, value]) => (
+                            <TouchableOpacity>
+                                <Image key={key} source={{ uri: value }} style={{width:WIDTH/3, height:WIDTH/3}}/>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+                </ScrollView>
+            )}
+
+
         </View>
     )
 }
