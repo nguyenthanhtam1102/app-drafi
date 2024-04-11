@@ -16,7 +16,11 @@ const styles = StyleSheet.create({
     messageBoxSender:{
         flex:1,
         flexDirection: 'row-reverse',
-        margin:10,
+        alignItems:'flex-end'
+    },
+    editMessage:{
+        marginTop:5,
+        flexDirection: 'row-reverse',
         alignItems:'flex-end'
     },
     messageSenderText:{

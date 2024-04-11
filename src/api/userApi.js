@@ -7,3 +7,11 @@ export const getUserInfo = async (uid) => {
         throw error;
     }
 };
+
+export const getUserByEmail = async (email) => {
+    try {
+        return await authServiceApi.get(`/users/${email}`);
+    } catch (error){
+        throw error;
+    }
+}

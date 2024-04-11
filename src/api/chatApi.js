@@ -28,3 +28,11 @@ export const listAllAddFriendRequestReceived = async (userId) => {
         throw error;
     }
 }
+
+export const deleteMessage = async ({ chatId, messageId }) => {
+    try {
+        return await chatServiceApi.delete(`/${chatId}/messages/${messageId}`);
+    } catch (error) {
+        throw error;
+    }
+}

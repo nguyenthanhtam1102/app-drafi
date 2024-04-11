@@ -13,6 +13,7 @@ import MessageType from "../../constants/MessageType";
 import { v4 as uuidv4 } from 'uuid';
 import {EmojiKeyboard} from "rn-emoji-keyboard";
 
+
 //Xử lý button gọi điện thoại
 const handleCallPhone= () =>{
 
@@ -66,7 +67,7 @@ function RoomChat({navigation}) {
 
     console.log(imagesList);
 
-    const [openImage, setOpenImage] = useState(true);
+    const [openImage, setOpenImage] = useState(false);
     const handleOpenImage = async () =>{
         setOpenImage(!openImage)
         setopenEmoji(false)
@@ -83,6 +84,10 @@ function RoomChat({navigation}) {
     const selectEmoji = item =>{
 
         setMessage((prevMessage) => prevMessage + item.emoji);
+    }
+
+    const handleSelectImage = (item) =>{
+
     }
 
 
@@ -132,9 +137,9 @@ function RoomChat({navigation}) {
                 {messages && messages?.length > 0 && messages.map((item)=>(
                     <View key={item.messageId}>
                         {item.senderId === userId ?(
-                            <MessageChatSender msg={item}/>
+                            <MessageChatSender msg={item} chatId={chatId}/>
                         ) : (
-                            <MessageChatReceiver msg={item}/>
+                            <MessageChatReceiver msg={item} chatId={chatId}/>
                         )}
                     </View>
                 ))}
@@ -192,7 +197,9 @@ function RoomChat({navigation}) {
                 <ScrollView style={{height:10}}>
                     <View style={{flexDirection:'row', flexWrap:'wrap'}}>
                         {Object.entries(imagesList).map(([key, value]) => (
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={handleSelectImage}
+                            >
                                 <Image key={key} source={{ uri: value }} style={{width:WIDTH/3, height:WIDTH/3}}/>
                             </TouchableOpacity>
                         ))}

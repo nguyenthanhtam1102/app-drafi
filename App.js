@@ -86,7 +86,7 @@ export default function App() {
 
 function MyTabs(){
   return(
-      <Tab.Navigator initialRouteName={"MyUser"} >
+      <Tab.Navigator initialRouteName={"Chat"} >
         <Tab.Screen name={"Chat"} component={HomeChat}
                     options={{
                         headerShown:false,

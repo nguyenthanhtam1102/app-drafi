@@ -3,13 +3,20 @@ import {styles} from "../../css/userpage/FindUser";
 import {FontAwesome} from "@expo/vector-icons";
 import {useState} from "react";
 import { Entypo } from '@expo/vector-icons';
+import useGetUserByEmail from "../../api/useGetUserByEmail";
 
 
 function FindUser({navigation}){
 
-    const [userName, setUserName] = useState("");
+    // const { userInfo, isLoading: isLoadingUserInfo } = useGetUserInfo(userId);
+
+    const [email, setEmail] = useState("");
     const handleFindUser = () =>{
-        navigation.navigate("PersonalPage");
+        // const {userInfor, isLoading: isLoadingUserInfor} = useGetUserByEmail(email);
+        // console.log(userInfor)
+
+        // navigation.navigate("PersonalPage");
+
     }
 
     return(
@@ -42,10 +49,10 @@ function FindUser({navigation}){
             <View style={styles.findView}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <TextInput
-                        onChangeText={setUserName}
-                        value={userName}
+                        onChangeText={setEmail}
+                        value={email}
                         style={styles.inputFindUser}
-                        placeholder={"Enter username"}
+                        placeholder={"Enter email"}
                         placeholderTextColor={"#CCCCCC"}
                     />
                 </View>
