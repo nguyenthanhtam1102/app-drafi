@@ -15,3 +15,11 @@ export const chatServiceApi = axios.create({
         "Content-Type": "application/json",
     }
 });
+
+export const notificationServiceApi = axios.create({
+    baseURL: "http://localhost:8081/api/requests",
+    timeout: 30000,
+    headers: {
+        "Content-Type": "application/json",
+    }
+});

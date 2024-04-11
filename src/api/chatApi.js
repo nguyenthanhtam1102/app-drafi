@@ -1,4 +1,4 @@
-import {chatServiceApi} from "./axiosConfig";
+import {chatServiceApi, notificationServiceApi} from "./axiosConfig";
 
 export const listAllMessages = async (chatId) => {
     try {
@@ -16,6 +16,14 @@ export const sendMessage = async ({ messageId, chatId, senderId, senderName, sen
                 senderId, senderName, senderPicture, type, content, timestamp
             }
         })
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const listAllAddFriendRequestReceived = async (userId) => {
+    try {
+        return await notificationServiceApi.get(`/getListReceiverRequest/${userId}`);
     } catch (error) {
         throw error;
     }
