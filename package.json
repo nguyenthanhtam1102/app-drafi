@@ -32,7 +32,9 @@
     "react-native-document-picker": "^9.1.1",
     "react-native-file-viewer": "^2.1.5",
     "react-native-web": "~0.19.6",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "socket.io-client": "^4.7.5",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

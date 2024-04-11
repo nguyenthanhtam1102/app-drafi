@@ -9,7 +9,6 @@ function MessageBox({item, navigation}) {
             style={styles.message}
             onPress={()=>{navigation.navigate("RoomChat")}}
         >
-
             <View style={styles.img}>
                 <Image source={item.image} style={{width:50, height:50, borderRadius:100}}/>
             </View>
@@ -17,7 +16,7 @@ function MessageBox({item, navigation}) {
                 <View style={styles.content}>
                     <Text style={{fontSize:15}}>{item.displayName}</Text>
                     <Text style={{fontSize:15, color:"#AAAAAA", marginTop:10}}>
-                        {item?.content?.type === 'text' ? (item?.content?.message?.length > 28 ? `${item?.content?.message?.slice(0, 28)}...` : item?.content?.message)
+                        {item?.content?.type === 'text' ? (item?.content?.content?.length > 28 ? `${item?.content?.content?.slice(0, 28)}...` : item?.content?.content)
                         : (item?.content?.type === 'image' ? 'Bạn đã nhận được một hình ảnh' : (item?.content?.type === 'files' ? 'Bạn đã nhận được một file' : 'Bạn đã nhận được một tin nhắn mới'))}
                     </Text>
                 </View>
