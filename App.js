@@ -20,6 +20,8 @@ import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import socket, {notificationSocket} from "./config/SocketIOConfig";
 import QueryKey from "./src/constants/QueryKey";
 import {useEffect} from "react";
+import SettingUser from "./src/screens/userpage/SettingUser";
+import ChangePassword from "./src/screens/userpage/ChangePassword";
 
 
 const Stack = createNativeStackNavigator();
