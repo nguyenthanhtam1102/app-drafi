@@ -1,14 +1,39 @@
 import {Image, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "../css/component/ReceivedFriendRequest";
-
-
+import useListAllAddFriendRequestReceived from "../api/useListAllAddFriendRequestReceived";
 
 function ReceivedFriendRequest({navigation, listReceived}) {
+    const userId = 'cec3f3b8-4cb4-4d96-99a9-e5b3d4d4d559';
+
+    const { addFriendRequestList, isLoading } = useListAllAddFriendRequestReceived(userId);
+
+    console.log('ADD FRIEND REQUEST LIST', addFriendRequestList);
+
     return(
         <View style={styles.container}>
-            {listReceived.map((item)=>(
-                <ReceivedBox key={item.id} navigation={navigation} item={item}/>
-            ))}
+            {addFriendRequestList && addFriendRequestList.map((item)=> {
+                const requestId = item.requestId;
+                const senderId = item.sender;
+                const senderName = item.senderName;
+                const isAccepted = item.isAccepted;
+                const picture = item.profilePicture;
+
+                const addFriendRequest = {
+                    _id: requestId,
+                    u: {
+                        username: senderName,
+                        displayName: senderName,
+                        id: senderId,
+                        image: picture,
+                    }
+                }
+
+                if(!isAccepted) {
+                    return (
+                        <ReceivedBox key={addFriendRequest._id} navigation={navigation} item={addFriendRequest}/>
+                    )
+                }
+            })}
         </View>
     )
 }
