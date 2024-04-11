@@ -26,24 +26,6 @@ function HomeChat({navigation}) {
     console.log(listMessage)
     console.log('LIST ALL PARTICIPANTS', participants);
 
-    useEffect(() => {
-        if (socket) {
-            socket.emit("add-user", userId)
-
-            socket.on("msg-recieve-private", (data) => {
-                console.log(data)
-
-                const chatId = data.from;
-                queryClient.invalidateQueries({ queryKey: [QueryKey.LIST_ALL_PARTICIPANTS] });
-                queryClient.invalidateQueries({ queryKey: [`${QueryKey.LIST_ALL_MESSAGES}_${chatId}`] });
-            })
-
-            socket.on("msg-recieve-public", (data) => {
-                console.log(data)
-            })
-        }
-    }, []);
-
     return(
         <View style={styles.container}>
             <View style={styles.findChat}>

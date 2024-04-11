@@ -48,6 +48,7 @@ function RoomChat({navigation}) {
             content: message,
             timestamp: Date.now()
         });
+        setMessage('');
     }
 
     const handleOpenFile = async () =>{
