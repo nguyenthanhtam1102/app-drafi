@@ -30,7 +30,7 @@ export default function App() {
   return (
       <QueryClientProvider client={queryClient}>
           <NavigationContainer>
-              <Stack.Navigator initialRouteName={"HomeChat"}>
+              <Stack.Navigator initialRouteName={"RoomChat"}>
                   <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
                   <Stack.Screen name='Login' component={Login} />
                   <Stack.Screen name='Register' component={Register} />
@@ -42,6 +42,9 @@ export default function App() {
                   <Stack.Screen name="FriendRequest" component={FriendRequest} options={{ headerShown: false, }}/>
                   <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
                   <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="SettingUser" component={SettingUser} options={{ headerShown: false, }}/>
+                  <Stack.Screen name="ChangePassword}" component={ChangePassword} options={{ headerShown: false, }}/>
+
               </Stack.Navigator>
           </NavigationContainer>
       </QueryClientProvider>

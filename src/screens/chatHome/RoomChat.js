@@ -37,7 +37,7 @@ function RoomChat({navigation}) {
     // const [messageList, setMessageList] = useState([]);
     const roomName = 'Nguyen Thanh Tam';
     const userId = 'a7441827-3ac8-49f8-b7e8-80bfd498b5f9';
-    const { messages, isLoadingAllMessage } = useListAllMessages('4c988df1-d80f-4469-9f42-5a8d5ba14653');
+    const { messages, isLoadingAllMessage } = useListAllMessages('13343a76-d078-45b2-96f0-0a4b6114cb24');
 
     console.log('ALL MESSAGES', messages);
 
@@ -51,6 +51,7 @@ function RoomChat({navigation}) {
 
     const [sendMessage, setSendMessage] = useState("");
     const [hiddenFile, setHiddenFile] = useState(true);
+    const [hiddenEmoji, setHiddenEmoji] = useState(false);
     const [imageList, setImageList] = useState([]);
 
 
@@ -63,6 +64,9 @@ function RoomChat({navigation}) {
 
     const handleOpenFile = async () =>{
         setHiddenFile(!hiddenFile)
+    }
+    const handleEmoji = emoji => {
+        console.log(emoji)
     }
 
 
@@ -124,6 +128,12 @@ function RoomChat({navigation}) {
 
             {/*Sender input*/}
             <View style={styles.textInputChat}>
+                <TouchableOpacity
+                    style={{marginRight: 10}}
+                    onPress={()=> setHiddenEmoji(!hiddenEmoji)}
+                >
+                    <Entypo name="emoji-happy" size={24} color="black" />
+                </TouchableOpacity>
                 <View style={{flex:1, marginRight:10, marginVertical:10}}>
                     <TextInput
                         style={{fontSize:18}}
@@ -156,6 +166,15 @@ function RoomChat({navigation}) {
                     </View>
                 )}
             </View>
+            {/*<View>*/}
+            {/*    {hiddenEmoji?(*/}
+            {/*        <View></View>*/}
+            {/*    ):(*/}
+            {/*        <View>*/}
+            {/*            <Text>Emoji</Text>*/}
+            {/*        </View>*/}
+            {/*    )}*/}
+            {/*</View>*/}
         </View>
     )
 }
