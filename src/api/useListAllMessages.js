@@ -5,7 +5,7 @@ import {listAllMessages} from "./chatApi";
 
 const useListAllMessage = (chatId) => {
     const { data: messages, isLoading} = useQuery({
-        queryKey: [QueryKey.LIST_ALL_MESSAGES],
+        queryKey: [`${QueryKey.LIST_ALL_MESSAGES}_${chatId}`],
         queryFn: () => listAllMessages(chatId),
         initialData: [],
         onError: (error) => {

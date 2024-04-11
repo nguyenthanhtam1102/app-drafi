@@ -7,18 +7,10 @@ import {chatWithDoraemon} from "../../dataDemo/DataDemo";
 import {MessageChatSender, MessageChatReceiver} from "../../component/MessageChat";
 import FileViewer from 'react-native-file-viewer'
 import useListAllMessages from "../../api/useListAllMessages";
-
-
-
-const messageList = chatWithDoraemon;
-const user = {
-    username:"Tai",
-    displayName:"Tai",
-}
-const receiver={
-    username:"Doraemon",
-    displayName:"Doraemon",
-}
+import socket from "../../../config/SocketIOConfig";
+import { useSendMessage } from "../../api/useSendMessage";
+import MessageType from "../../constants/MessageType";
+import { v4 as uuidv4 } from 'uuid';
 
 //Xử lý button gọi điện thoại
 const handleCallPhone= () =>{
@@ -33,43 +25,34 @@ const handleCallVideo= () =>{
 //xử lý button mở setting room
 
 function RoomChat({navigation}) {
-    // const { participants, isLoadingParticipants } = useListParticipants('a7441827-3ac8-49f8-b7e8-80bfd498b5f9');
-    // const [messageList, setMessageList] = useState([]);
     const roomName = 'Nguyen Thanh Tam';
-    const userId = 'a7441827-3ac8-49f8-b7e8-80bfd498b5f9';
-    const { messages, isLoadingAllMessage } = useListAllMessages('13343a76-d078-45b2-96f0-0a4b6114cb24');
+    const userId = 'cec3f3b8-4cb4-4d96-99a9-e5b3d4d4d559';
+    const chatId = '13343a76-d078-45b2-96f0-0a4b6114cb24';
+
+    const { messages, isLoadingAllMessage } = useListAllMessages(chatId);
+    const [message, setMessage] = useState('');
+
+    const sendMessage = useSendMessage(chatId);
 
     console.log('ALL MESSAGES', messages);
 
-    // useEffect(() => {
-    //     if(participants) {
-    //         setMessageList(participants.messages);
-    //     }
-    // }, [participants]);
-    //
-    // console.log('MESSAGE LIST', messageList);
-
-    const [sendMessage, setSendMessage] = useState("");
-    const [hiddenFile, setHiddenFile] = useState(true);
-    const [hiddenEmoji, setHiddenEmoji] = useState(false);
-    const [imageList, setImageList] = useState([]);
-
-
-    console.log(imageList)
-
-
     const handleSendMessage = () =>{
-        setSendMessage("");
+        console.log('Send message: ', message);
+        sendMessage({
+            chatId: chatId,
+            messageId: uuidv4(),
+            senderId: userId,
+            senderName: 'Nguyen Thanh Tam',
+            senderPicture: 'https://vn.portal-pokemon.com/play/resources/pokedex/img/pm/5794f0251b1180998d72d1f8568239620ff5279c.png',
+            type: MessageType.TEXT,
+            content: message,
+            timestamp: Date.now()
+        });
     }
 
     const handleOpenFile = async () =>{
-        setHiddenFile(!hiddenFile)
-    }
-    const handleEmoji = emoji => {
-        console.log(emoji)
-    }
 
-
+    }
 
     return(
         <View style={styles.container}>
@@ -128,19 +111,13 @@ function RoomChat({navigation}) {
 
             {/*Sender input*/}
             <View style={styles.textInputChat}>
-                <TouchableOpacity
-                    style={{marginRight: 10}}
-                    onPress={()=> setHiddenEmoji(!hiddenEmoji)}
-                >
-                    <Entypo name="emoji-happy" size={24} color="black" />
-                </TouchableOpacity>
                 <View style={{flex:1, marginRight:10, marginVertical:10}}>
                     <TextInput
                         style={{fontSize:18}}
-                        value={sendMessage}
+                        value={message}
                         numberOfLines={2}
                         multiline={true}
-                        onChangeText={setSendMessage}
+                        onChangeText={setMessage}
                     />
                 </View>
                 <TouchableOpacity
@@ -157,24 +134,6 @@ function RoomChat({navigation}) {
                 </TouchableOpacity>
 
             </View>
-            <View>
-                {hiddenFile?(
-                    <View></View>
-                ):(
-                    <View>
-                        <Text>Hello</Text>
-                    </View>
-                )}
-            </View>
-            {/*<View>*/}
-            {/*    {hiddenEmoji?(*/}
-            {/*        <View></View>*/}
-            {/*    ):(*/}
-            {/*        <View>*/}
-            {/*            <Text>Emoji</Text>*/}
-            {/*        </View>*/}
-            {/*    )}*/}
-            {/*</View>*/}
         </View>
     )
 }

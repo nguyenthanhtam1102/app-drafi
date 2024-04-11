@@ -7,3 +7,16 @@ export const listAllMessages = async (chatId) => {
         throw error;
     }
 }
+
+export const sendMessage = async ({ messageId, chatId, senderId, senderName, senderPicture, type, content, timestamp }) => {
+    try {
+        return await chatServiceApi.put(`/${chatId}/messages`, {
+            newMessage: {
+                messageId,
+                senderId, senderName, senderPicture, type, content, timestamp
+            }
+        })
+    } catch (error) {
+        throw error;
+    }
+}
