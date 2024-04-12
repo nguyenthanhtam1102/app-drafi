@@ -24,6 +24,7 @@ import SettingUser from "./src/screens/userpage/SettingUser";
 import ChangePassword from "./src/screens/userpage/ChangePassword";
 import {Provider} from "react-redux";
 import store from "./src/redux/store";
+import CreateNewGroup from "./src/screens/chatHome/CreateNewGroup";
 
 
 const Stack = createNativeStackNavigator();
@@ -66,7 +67,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
           <Provider store={store}>
               <NavigationContainer>
-                  <Stack.Navigator initialRouteName={"RoomChat"}>
+                  <Stack.Navigator initialRouteName={"HomeLogin"}>
                       <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
                       <Stack.Screen name='Login' component={Login} />
                       <Stack.Screen name='Register' component={Register} />
@@ -79,7 +80,8 @@ export default function App() {
                       <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
                       <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>
                       <Stack.Screen name="SettingUser" component={SettingUser} options={{ headerShown: false, }}/>
-                      <Stack.Screen name="ChangePassword}" component={ChangePassword} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="CreateNewGroup" component={CreateNewGroup} options={{ headerShown: false, }}/>
 
                   </Stack.Navigator>
               </NavigationContainer>
@@ -90,7 +92,7 @@ export default function App() {
 
 function MyTabs(){
   return(
-      <Tab.Navigator initialRouteName={"Chat"} >
+      <Tab.Navigator initialRouteName={"PhoneBook"} >
         <Tab.Screen name={"Chat"} component={HomeChat}
                     options={{
                         headerShown:false,
