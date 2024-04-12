@@ -30,7 +30,8 @@ function Login({ navigation }) {
             password: isPassword
         })
             .then(response => {
-                dispatch(setUser(response))
+                console.log(response.data.user_info)
+                dispatch(setUser(response.data.user_info))
                 setCheckValid("");
                 // const user
                 navigation.navigate("HomeChat");

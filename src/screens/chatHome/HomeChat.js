@@ -11,13 +11,12 @@ import { io as socketIO } from "socket.io-client";
 import {useQueryClient} from "@tanstack/react-query";
 import QueryKey from "../../constants/QueryKey";
 import socket from "../../../config/SocketIOConfig";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 // const listMessage = listMessage;
 
 
 function HomeChat({navigation}) {
-    const dispatch = useDispatch();
-    const user = useSelector((state) => state.user);
+    const user = useSelector((state) => state.userData);
     console.log(user)
 
     const userId = user.id;

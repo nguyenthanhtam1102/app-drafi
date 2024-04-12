@@ -29,13 +29,16 @@ const handleCallVideo= () =>{
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
-const dispatch = useDispatch();
-const user = useSelector((state) => state.user);
-console.log(user)
+
 
 //xử lý button mở setting room
 
 function RoomChat({navigation}) {
+
+    //lấy my user từ redux
+    const user = useSelector((state) => state.userData);
+
+
     const roomName = 'Nguyen Thanh Tam';
     const userId = user.id;
     const chatId = '13343a76-d078-45b2-96f0-0a4b6114cb24';
