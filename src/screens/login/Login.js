@@ -4,11 +4,17 @@ import { useState } from "react";
 import axios from "axios";
 import { signInWithPopup } from "firebase/auth";
 import { auth, googleAuthProvider } from "../../../config/FirebaseConfig";
+import {useDispatch} from "react-redux";
+import {setUser} from "../../redux/action";
+
+
 
 
 const logoGoogle = { uri: 'https://cdn.iconscout.com/icon/free/png-256/free-google-1772223-1507807.png' };
 
 function Login({ navigation }) {
+
+    const dispatch = useDispatch();
 
     const [isEmail, setEmail] = useState("");
     const [isPassword, setPassword] = useState("");
@@ -24,7 +30,9 @@ function Login({ navigation }) {
             password: isPassword
         })
             .then(response => {
+                dispatch(setUser(response))
                 setCheckValid("");
+                // const user
                 navigation.navigate("HomeChat");
             })
             .catch(error => {

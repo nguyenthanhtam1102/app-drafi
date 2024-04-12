@@ -12,6 +12,8 @@ import { useSendMessage } from "../../api/useSendMessage";
 import MessageType from "../../constants/MessageType";
 import { v4 as uuidv4 } from 'uuid';
 import {EmojiKeyboard} from "rn-emoji-keyboard";
+import {useDispatch, useSelector} from "react-redux";
+
 
 
 //Xử lý button gọi điện thoại
@@ -27,11 +29,15 @@ const handleCallVideo= () =>{
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
+const dispatch = useDispatch();
+const user = useSelector((state) => state.user);
+console.log(user)
+
 //xử lý button mở setting room
 
 function RoomChat({navigation}) {
     const roomName = 'Nguyen Thanh Tam';
-    const userId = 'cec3f3b8-4cb4-4d96-99a9-e5b3d4d4d559';
+    const userId = user.id;
     const chatId = '13343a76-d078-45b2-96f0-0a4b6114cb24';
 
     const { messages, isLoadingAllMessage } = useListAllMessages(chatId);

@@ -1,23 +1,52 @@
 import {Image, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {styles} from "../../css/userpage/FindUser";
 import {FontAwesome} from "@expo/vector-icons";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import { Entypo } from '@expo/vector-icons';
 import useGetUserByEmail from "../../api/useGetUserByEmail";
+import {chatServiceApi} from "../../api/axiosConfig";
+import {useDispatch, useSelector} from "react-redux";
 
+
+
+const dispatch = useDispatch();
+const user = useSelector((state) => state.user);
+console.log(user)
 
 function FindUser({navigation}){
 
     // const { userInfo, isLoading: isLoadingUserInfo } = useGetUserInfo(userId);
 
-    const [email, setEmail] = useState("");
-    const handleFindUser = () =>{
-        // const {userInfor, isLoading: isLoadingUserInfor} = useGetUserByEmail(email);
-        // console.log(userInfor)
+    const roomName = 'Nguyen Thanh Tam';
+    const userId = user.id;
+    const chatId = '13343a76-d078-45b2-96f0-0a4b6114cb24';
 
-        // navigation.navigate("PersonalPage");
+    const [phone, setPhone] = useState("");
+    const handleFindUser = () =>{
+        const results = userList.find(user => user.phone === phone && user.id !== userId);
+        console.log(results)
+        // if(results.length > 0){
+        //
+        // }
 
     }
+
+    const [userList, setUserList] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const { data } = await chatServiceApi.get(`"http://localhost:8082/api/users`);
+                console.log(data)
+                setUserList(data.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
 
     return(
         <View style={styles.container}>
@@ -49,10 +78,10 @@ function FindUser({navigation}){
             <View style={styles.findView}>
                 <View style={{flex:1, justifyContent:'center'}}>
                     <TextInput
-                        onChangeText={setEmail}
-                        value={email}
+                        onChangeText={setPhone}
+                        value={phone}
                         style={styles.inputFindUser}
-                        placeholder={"Enter email"}
+                        placeholder={"Enter phone"}
                         placeholderTextColor={"#CCCCCC"}
                     />
                 </View>
@@ -62,6 +91,7 @@ function FindUser({navigation}){
                 >
                     <Entypo name="arrow-with-circle-right" size={30} color="#AAAAAA" />
                 </TouchableOpacity>
+
             </View>
         </View>
     )

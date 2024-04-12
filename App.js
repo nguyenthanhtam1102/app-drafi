@@ -63,7 +63,7 @@ export default function App() {
     return (
       <QueryClientProvider client={queryClient}>
           <NavigationContainer>
-              <Stack.Navigator initialRouteName={"RoomChat"}>
+              <Stack.Navigator initialRouteName={"FindUser"}>
                   <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
                   <Stack.Screen name='Login' component={Login} />
                   <Stack.Screen name='Register' component={Register} />

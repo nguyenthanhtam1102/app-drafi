@@ -8,6 +8,8 @@ export const authServiceApi = axios.create({
     }
 });
 
+
+
 export const chatServiceApi = axios.create({
     baseURL: "http://localhost:8082/api/chats",
     timeout: 30000,
