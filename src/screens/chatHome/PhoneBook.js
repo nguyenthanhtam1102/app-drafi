@@ -56,7 +56,7 @@ function PhoneBook({navigation}){
                     {selection ? (
                         <FriendsComponent navigation={navigation}/>
                     ) : (
-                        <GroupsComponent/>
+                        <GroupsComponent navigation={navigation}/>
                     )}
                 </ScrollView>
             </View>

@@ -67,7 +67,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
           <Provider store={store}>
               <NavigationContainer>
-                  <Stack.Navigator initialRouteName={"HomeLogin"}>
+                  <Stack.Navigator initialRouteName={"HomeChat"}>
                       <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
                       <Stack.Screen name='Login' component={Login} />
                       <Stack.Screen name='Register' component={Register} />

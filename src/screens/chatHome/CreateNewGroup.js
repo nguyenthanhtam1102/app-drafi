@@ -3,17 +3,24 @@ import {styles} from "../../css/chatHome/CreateNewGroup";
 import {Entypo, FontAwesome, FontAwesome5} from "@expo/vector-icons";
 import {useEffect, useState} from "react";
 import {dataFriends} from "../../dataDemo/DataDemo";
+import useListParticipants from "../../api/useListParticipants";
+import {useSelector} from "react-redux";
 
 
 //list lưu thành viên được choọn
 const listAddInGroupId = [];
 const listFriend = dataFriends;
+const user = useSelector((state) => state.userData);
 
 function CreateNewGroup({navigation}){
+    // const userId = user.id;
+    const userId = '4f4bc43b-c4b1-4065-a7c3-c3a66a04f5e8';
+    const { participants } = useListParticipants(userId);
 
 
     const [groupName, setGroupName] = useState("");
     const [viewButton, setViewButton] = useState(false);
+    const [disableButtonCreate, setDisableButtonCreate] = useState(true)
 
 
 
@@ -24,6 +31,12 @@ function CreateNewGroup({navigation}){
         } else {
             setViewButton(!viewButton)
         }
+        if(listAddInGroupId.length >= 2){
+            setDisableButtonCreate(false)
+        } else {
+            setDisableButtonCreate(true);
+        }
+
     })
 
     const handleCreateGroup = () =>{
@@ -84,10 +97,24 @@ function CreateNewGroup({navigation}){
             </View>
 
             <View style={styles.listFriendView}>
-                {listFriend.length > 0 ? (
-                    listFriend.map((item)=>(
-                        <ListFriendView key={item.id} item={item}/>
-                    ))
+                {participants.length > 0 ? (
+                    participants.map((item)=>{
+                        const chatId = item.chatId;
+                        const participantIndex = item.participants.indexOf(userId);
+                        const friendId = item.participants[participantIndex];
+                        const friendName = item.name.split('/')[participantIndex];
+                        const picture = item.picture;
+
+                        const friendItem = {
+                            id: chatId,
+                            image: picture,
+                            displayName: friendName,
+                            userName: friendName,
+                        }
+                        return(
+                            <ListFriendView key={friendItem.id} item={friendItem}/>
+                        )
+                    })
                 ):(
                     <NoFriendView/>
                 )}
@@ -110,6 +137,7 @@ function CreateNewGroup({navigation}){
                     </ScrollView>
                     <TouchableOpacity
                         onPress={handleCreateGroup}
+                        disabled={disableButtonCreate}
                     >
                         <FontAwesome name="arrow-circle-right" size={50} color="#33CCFF" />
                     </TouchableOpacity>
@@ -129,7 +157,8 @@ function ListFriendView({item}){
         setChangeCheckbox(!changeCheckbox)
         if(!changeCheckbox){
             listAddInGroupId.push(item)
-            console.log("Length: " + listAddInGroupId.length);
+            console.log("123")
+            console.log(listAddInGroupId);
         } else {
             const findItemRemove = listAddInGroupId.find(item=>item.id === item.id);
             if(findItemRemove !== -1){
@@ -138,6 +167,8 @@ function ListFriendView({item}){
             console.log(listAddInGroupId)
         }
     }
+
+    // const image = item.image.split("|")[0]
 
 
     return(
