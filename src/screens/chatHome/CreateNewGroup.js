@@ -9,10 +9,11 @@ import {useSelector} from "react-redux";
 
 //list lưu thành viên được choọn
 const listAddInGroupId = [];
-const listFriend = dataFriends;
-const user = useSelector((state) => state.userData);
+
 
 function CreateNewGroup({navigation}){
+
+    const user = useSelector((state) => state.userData);
     // const userId = user.id;
     const userId = '4f4bc43b-c4b1-4065-a7c3-c3a66a04f5e8';
     const { participants } = useListParticipants(userId);
@@ -97,7 +98,7 @@ function CreateNewGroup({navigation}){
             </View>
 
             <View style={styles.listFriendView}>
-                {participants.length > 0 ? (
+                {participants?(
                     participants.map((item)=>{
                         const chatId = item.chatId;
                         const participantIndex = item.participants.indexOf(userId);
