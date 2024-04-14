@@ -14,7 +14,7 @@ function AddMember({navigation}){
 
     const chatId = "";
 
-    const { listFriend } = useListParticipants(userId);
+    const { listGroup } = useListParticipants(userId);
     const { participants } = useListParticipants(userId);
 
     const [viewButton, setViewButton] = useState(false);
@@ -90,7 +90,7 @@ function AddMember({navigation}){
                             participants: item.participants,
                         }
                         return(
-                            type !== 'public' && <ListFriendView key={friendItem.id} item={friendItem} setListAddInGroupId={setListAddInGroupId} listFriend={listFriend}/>
+                            type !== 'public' && <ListFriendView key={friendItem.id} item={friendItem} setListAddInGroupId={setListAddInGroupId} listGroup={listGroup}/>
                         )
                     })
                 ):(
@@ -129,7 +129,7 @@ function AddMember({navigation}){
 }
 
 
-function ListFriendView({item, setListAddInGroupId, listFriend}){
+function ListFriendView({item, setListAddInGroupId, listGroup}){
     const [changeCheckbox, setChangeCheckbox] = useState(false);
 
 
@@ -154,7 +154,7 @@ function ListFriendView({item, setListAddInGroupId, listFriend}){
     }
 
     // const image = item.image.split("|")[0]
-    const findMember = listFriend.find(item => item.id = item.id);
+    const findMember = listGroup.find(item => item.id = item.id);
 
 
     return(
