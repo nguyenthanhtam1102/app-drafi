@@ -52,6 +52,8 @@ function CreateNewGroup({navigation}){
             groupName: groupName,
             participantIdList: Object.keys(listMemberIds),
             type: "public",
+            picture: "https://firebasestorage.googleapis.com/v0/b/chatservice-d1f1c.appspot.com/o/avatars%2FavatarGroup.jpg?alt=media&token=cc85e7a4-6bbc-40d2-941c-313db77a2745",
+            managerId: userId,
         });
     }
 
