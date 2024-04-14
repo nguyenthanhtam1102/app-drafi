@@ -3,7 +3,7 @@ import {styles} from "../../css/chatHome/SettingSingleRoom";
 import {FontAwesome, Foundation, Octicons} from "@expo/vector-icons";
 import { Feather } from '@expo/vector-icons';
 
-function SettingSingleRoom({navigation}){
+function InformationSingleRoom({navigation}){
     return(
         <View style={styles.container}>
 
@@ -95,4 +95,4 @@ function SettingSingleRoom({navigation}){
     )
 }
 
-export default SettingSingleRoom;
+export default InformationSingleRoom;

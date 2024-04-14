@@ -12,7 +12,6 @@ import { FontAwesome } from '@expo/vector-icons';
 import HomeChat from "./src/screens/chatHome/HomeChat";
 import RoomChat from "./src/screens/chatHome/RoomChat";
 import MyUser from "./src/screens/chatHome/MyUser";
-import SettingRoom from "./src/screens/chatHome/SettingRoom";
 import FriendRequest from "./src/screens/chatHome/FriendRequest";
 import PersonalPage from "./src/screens/userpage/PersonalPage";
 import FindUser from "./src/screens/userpage/FindUser";
@@ -23,6 +22,10 @@ import {Provider, useSelector} from "react-redux";
 import store from "./src/redux/store";
 import CreateNewGroup from "./src/screens/chatHome/CreateNewGroup";
 import MainApp from "./MainApp";
+import InformationSingleRoom from "./src/screens/chatHome/InformationSingleRoom";
+import InformationGroupRoom from "./src/screens/chatHome/InformationGroupRoom";
+import SeeMembers from "./src/screens/chatHome/SeeMembers";
+import AddMember from "./src/screens/chatHome/AddMember";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,7 +37,7 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
           <Provider store={store}>
               <NavigationContainer>
-                  <Stack.Navigator initialRouteName={"Login"}>
+                  <Stack.Navigator initialRouteName={"InformationGroupRoom"}>
                       <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
                       <Stack.Screen name='Login' component={Login} />
                       <Stack.Screen name='Register' component={Register} />
@@ -42,7 +45,10 @@ export default function App() {
                       <Stack.Screen name="SuccessRegister" component={SuccessRegister} options={{ headerShown: false, }} />
                       <Stack.Screen name="HomeChat" component={MyTabs} options={{ headerShown: false, }}/>
                       <Stack.Screen name="RoomChat" component={RoomChat} options={{ headerShown: false, }}/>
-                      <Stack.Screen name="SettingRoom" component={SettingRoom} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="InformationSingleRoom" component={InformationSingleRoom} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="InformationGroupRoom" component={InformationGroupRoom} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="AddMember" component={AddMember} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="SeeMembers" component={SeeMembers} options={{ headerShown: false, }}/>
                       <Stack.Screen name="FriendRequest" component={FriendRequest} options={{ headerShown: false, }}/>
                       <Stack.Screen name="PersonalPage" component={PersonalPage} options={{ headerShown: false, }}/>
                       <Stack.Screen name="FindUser" component={FindUser} options={{ headerShown: false, }}/>

@@ -3,9 +3,7 @@ import {styles} from "../../css/chatHome/SettingGroupRoom";
 import {AntDesign, Entypo, Feather, FontAwesome, Foundation, Octicons} from "@expo/vector-icons";
 
 
-function SettingGroupRoom() {
-
-
+function InformationGroupRoom({navigation}) {
 
 
     return(
@@ -54,7 +52,7 @@ function SettingGroupRoom() {
                         {/*Personal page */}
                         <TouchableOpacity
                             style={{alignItems:'center'}}
-                            // onPress={}
+                            onPress={()=>{navigation.navigate("AddMember")}}
                         >
                             <View style={styles.button}>
                                 <Feather name="user-plus" size={20} color="black" />
@@ -93,7 +91,10 @@ function SettingGroupRoom() {
                 </View>
 
                 <View style={{flex:1, marginTop:15, backgroundColor:'white'}}>
-                    <TouchableOpacity style={styles.viewTouchable}>
+                    <TouchableOpacity
+                        style={styles.viewTouchable}
+                        onPress={()=>{navigation.navigate("SeeMembers")}}
+                    >
                         <FontAwesome name="group" size={25} color="black" />
                         <View style={styles.viewTitleTouchable}>
                             <Text style={{fontSize:18}}>
@@ -137,4 +138,4 @@ function SettingGroupRoom() {
 
 }
 
-export default SettingGroupRoom;
+export default InformationGroupRoom;

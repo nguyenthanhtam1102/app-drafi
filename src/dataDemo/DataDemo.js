@@ -36,6 +36,23 @@ const dataFriends = [
     },
 
 ]
+const dataMembers = [
+    {
+        id:'1',
+        image: require('../image/chatHome/doraemon.png'),
+        displayName:'Doraemon',
+        userName:"Doraemon",
+        permission: "leader"
+    },
+    {
+        id:'2',
+        image: require('../image/chatHome/nobita.png'),
+        displayName:'Nobita',
+        userName: "Nobita",
+        permission:'member'
+    },
+
+]
 
 
 
@@ -116,4 +133,4 @@ const personData = {
 }
 
 
-export {listMessage, chatWithDoraemon, dataFriends, receivedFriend, sentFriend, personData};
+export {listMessage, chatWithDoraemon, dataFriends, receivedFriend, sentFriend, personData, dataMembers};

@@ -122,7 +122,7 @@ function RoomChat({ route, navigation}) {
                 <View style={{flex:1, flexDirection:"row-reverse", alignItems:'center', justifyContent:'space-between'}}>
                     <TouchableOpacity
                         style={{flex:1}}
-                        onPress={()=>{navigation.navigate("SettingSingleRoom")}}
+                        onPress={()=>{navigation.navigate("InformationSingleRoom")}}
                     >
                         <Entypo name="menu" size={35} color="white" />
                     </TouchableOpacity>
