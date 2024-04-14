@@ -1,5 +1,13 @@
 import {chatServiceApi, notificationServiceApi} from "./axiosConfig";
 
+export const listAllChats = async () => {
+    try {
+        return await chatServiceApi.get('');
+    } catch (error) {
+        throw error;
+    }
+}
+
 export const listAllMessages = async (chatId) => {
     try {
         return await chatServiceApi.get(`/${chatId}/messages`);

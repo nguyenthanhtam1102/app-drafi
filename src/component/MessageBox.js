@@ -7,7 +7,10 @@ function MessageBox({item, navigation}) {
     return(
         <TouchableOpacity
             style={styles.message}
-            onPress={()=>{navigation.navigate("RoomChat")}}
+            onPress={()=>{navigation.navigate("RoomChat", {
+                chatId: item.id,
+                roomName: item.displayName
+            })}}
         >
             <View style={styles.img}>
                 <Image source={item.image} style={{width:50, height:50, borderRadius:100}}/>

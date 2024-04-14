@@ -3,11 +3,13 @@ import {FontAwesome5, Ionicons} from '@expo/vector-icons';
 import {styles} from '../css/component/FriendsComponent';
 import {dataFriends} from "../dataDemo/DataDemo";
 import useListParticipants from "../api/useListParticipants";
+import {useSelector} from "react-redux";
 
 const listFriends = dataFriends;
 
 function FriendsComponent({navigation}) {
-    const userId = 'cec3f3b8-4cb4-4d96-99a9-e5b3d4d4d559';
+    const user = useSelector((state) => state.userData);
+    const userId = user.id;
     const { participants } = useListParticipants(userId);
 
     const handleFriendRequest = () =>{
@@ -36,6 +38,7 @@ function FriendsComponent({navigation}) {
                     const friendId = item.participants[participantIndex];
                     const friendName = item.name.split('/')[participantIndex];
                     const picture = item.picture;
+                    const type = item.type;
 
                     const friendItem = {
                         id: chatId,
@@ -45,7 +48,7 @@ function FriendsComponent({navigation}) {
                     }
 
                     return (
-                        <BoxFriend item={friendItem} key={friendItem.id} navigation={navigation}/>
+                        type !== 'public' && <BoxFriend item={friendItem} key={friendItem.id} navigation={navigation}/>
                     )
                 })}
             </View>

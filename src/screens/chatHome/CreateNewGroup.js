@@ -5,24 +5,22 @@ import {useEffect, useState} from "react";
 import {dataFriends} from "../../dataDemo/DataDemo";
 import useListParticipants from "../../api/useListParticipants";
 import {useSelector} from "react-redux";
-
-
-//list lưu thành viên được choọn
-const listAddInGroupId = [];
+import useCreateGroupChat from "../../api/useCreateGroupChat";
 
 function CreateNewGroup({navigation}){
-
     const user = useSelector((state) => state.userData);
-    // const userId = user.id;
-    const userId = '4f4bc43b-c4b1-4065-a7c3-c3a66a04f5e8';
+    const userId = user.id;
     const { participants } = useListParticipants(userId);
 
+    const createGroupChat = useCreateGroupChat();
 
     const [groupName, setGroupName] = useState("");
     const [viewButton, setViewButton] = useState(false);
     const [disableButtonCreate, setDisableButtonCreate] = useState(true)
+    const [listAddInGroupId, setListAddInGroupId] = useState([]);
 
 
+    console.log('PPPPP', participants);
 
     // const listFriend = {};
     useEffect(()=>{
@@ -37,10 +35,24 @@ function CreateNewGroup({navigation}){
             setDisableButtonCreate(true);
         }
 
-    })
+    }, [listAddInGroupId]);
 
     const handleCreateGroup = () =>{
-        const listMember = listAddInGroupId;
+        const listMemberIds = {};
+        for(const item of listAddInGroupId) {
+            item.participants.forEach(participantId => {
+                listMemberIds[participantId] = true;
+            })
+        }
+
+        console.log(listMemberIds);
+        console.log(Object.keys(listMemberIds));
+
+        createGroupChat({
+            groupName: groupName,
+            participantIdList: Object.keys(listMemberIds),
+            type: "public",
+        });
     }
 
     return(
@@ -104,15 +116,17 @@ function CreateNewGroup({navigation}){
                         const friendId = item.participants[participantIndex];
                         const friendName = item.name.split('/')[participantIndex];
                         const picture = item.picture;
+                        const type = item.type;
 
                         const friendItem = {
                             id: chatId,
                             image: picture,
                             displayName: friendName,
                             userName: friendName,
+                            participants: item.participants,
                         }
                         return(
-                            <ListFriendView key={friendItem.id} item={friendItem}/>
+                            type !== 'public' && <ListFriendView key={friendItem.id} item={friendItem} setListAddInGroupId={setListAddInGroupId}/>
                         )
                     })
                 ):(
@@ -126,9 +140,10 @@ function CreateNewGroup({navigation}){
                         style={{flex:1, marginRight:15}}
                         horizontal={true}
                     >
-                        {listAddInGroupId.map((item)=>{
+                        {listAddInGroupId.map((item, i)=>{
                             return(
                                 <Image
+                                    key={i}
                                     source={item.image}
                                     style={{width:50, height:50, marginRight: 5, borderRadius:100}}
                                 />
@@ -149,22 +164,27 @@ function CreateNewGroup({navigation}){
     )
 }
 
-function ListFriendView({item}){
+function ListFriendView({item, setListAddInGroupId}){
     const [changeCheckbox, setChangeCheckbox] = useState(false);
 
 
     const handleSelectCheckbox = () =>{
         setChangeCheckbox(!changeCheckbox)
         if(!changeCheckbox){
-            listAddInGroupId.push(item)
-            console.log("123")
-            console.log(listAddInGroupId);
+            setListAddInGroupId(pre => {
+                const list = [...pre];
+                list.push(item);
+                return list;
+            })
         } else {
-            const findItemRemove = listAddInGroupId.find(item=>item.id === item.id);
-            if(findItemRemove !== -1){
-                listAddInGroupId.splice(findItemRemove, 1);
-            }
-            console.log(listAddInGroupId)
+            setListAddInGroupId(pre => {
+                const list = [...pre];
+                const findItemRemove = list.find(item=>item.id === item.id);
+                if(findItemRemove !== -1){
+                    list.splice(findItemRemove, 1);
+                }
+                return list;
+            })
         }
     }
 
