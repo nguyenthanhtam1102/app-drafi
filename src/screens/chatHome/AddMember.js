@@ -1,10 +1,8 @@
 import {Image, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {styles} from "../../css/chatHome/AddMember";
 import {Entypo, FontAwesome} from "@expo/vector-icons";
-import {dataFriends} from "../../dataDemo/DataDemo";
 import {useSelector} from "react-redux";
 import useListParticipants from "../../api/useListParticipants";
-import useCreateGroupChat from "../../api/useCreateGroupChat";
 import {useEffect, useState} from "react";
 
 
@@ -13,11 +11,12 @@ function AddMember({navigation}){
 
     const user = useSelector((state) => state.userData);
     const userId = user.id;
+
+    const chatId = "";
+
+    const { listFriend } = useListParticipants(userId);
     const { participants } = useListParticipants(userId);
 
-    const createGroupChat = useCreateGroupChat();
-
-    const [groupName, setGroupName] = useState("");
     const [viewButton, setViewButton] = useState(false);
     const [disableButtonCreate, setDisableButtonCreate] = useState(true)
     const [listAddInGroupId, setListAddInGroupId] = useState([]);
@@ -41,21 +40,7 @@ function AddMember({navigation}){
     }, [listAddInGroupId]);
 
     const handleCreateGroup = () =>{
-        const listMemberIds = {};
-        for(const item of listAddInGroupId) {
-            item.participants.forEach(participantId => {
-                listMemberIds[participantId] = true;
-            })
-        }
 
-        console.log(listMemberIds);
-        console.log(Object.keys(listMemberIds));
-
-        createGroupChat({
-            groupName: groupName,
-            participantIdList: Object.keys(listMemberIds),
-            type: "public",
-        });
     }
 
     return(
@@ -71,23 +56,6 @@ function AddMember({navigation}){
                     <Text style={{fontWeight:'bold', fontSize:20, color:'white'}}>
                         Add member
                     </Text>
-                </View>
-            </View>
-            <View style={styles.dubbing}>
-                <View style={{marginLeft:10, justifyContent:'center'}}>
-                    <TextInput
-                        placeholder={"Name the group"}
-                        placeholderTextColor={"#CCCCCC"}
-                        value={groupName}
-                        onChangeText={setGroupName}
-                        style={{outlineStyle:'none', fontSize:18, borderBottomWidth:1}}
-                    />
-
-                </View>
-                <View style={{marginLeft:20, justifyContent:'center'}}>
-                    {groupName !== "" &&(
-                        <Entypo name="check" size={35} color="blue" />
-                    )}
                 </View>
             </View>
             <View style={styles.findView}>
@@ -122,7 +90,7 @@ function AddMember({navigation}){
                             participants: item.participants,
                         }
                         return(
-                            type !== 'public' && <ListFriendView key={friendItem.id} item={friendItem} setListAddInGroupId={setListAddInGroupId}/>
+                            type !== 'public' && <ListFriendView key={friendItem.id} item={friendItem} setListAddInGroupId={setListAddInGroupId} listFriend={listFriend}/>
                         )
                     })
                 ):(
@@ -161,7 +129,7 @@ function AddMember({navigation}){
 }
 
 
-function ListFriendView({item, setListAddInGroupId}){
+function ListFriendView({item, setListAddInGroupId, listFriend}){
     const [changeCheckbox, setChangeCheckbox] = useState(false);
 
 
@@ -186,6 +154,7 @@ function ListFriendView({item, setListAddInGroupId}){
     }
 
     // const image = item.image.split("|")[0]
+    const findMember = listFriend.find(item => item.id = item.id);
 
 
     return(
@@ -200,14 +169,18 @@ function ListFriendView({item, setListAddInGroupId}){
                 </Text>
             </View>
             <View style={{justifyContent:'center', marginRight:10}}>
-                <TouchableOpacity
-                    style={[styles.checkbox, changeCheckbox && styles.selectCheckbox]}
-                    onPress={handleSelectCheckbox}
-                >
-                    {changeCheckbox &&(
-                        <Entypo name="check" size={15} color="white" />
+                {findMember?(
+                    <TouchableOpacity
+                        style={[styles.checkbox, changeCheckbox && styles.selectCheckbox]}
+                        onPress={handleSelectCheckbox}
+                    >
+                        {changeCheckbox &&(
+                            <Entypo name="check" size={15} color="white" />
+                        )}
+                    </TouchableOpacity>
+                ):(
+                    <Text>Member already in the group</Text>
                     )}
-                </TouchableOpacity>
             </View>
         </View>
     )

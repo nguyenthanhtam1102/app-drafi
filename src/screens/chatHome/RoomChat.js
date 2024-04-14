@@ -1,13 +1,10 @@
 import {Dimensions, FlatList, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
 import styles from "../../css/chatHome/RoomChat";
-import { FontAwesome } from '@expo/vector-icons';
+import {AntDesign, FontAwesome, MaterialCommunityIcons} from '@expo/vector-icons';
 import {useEffect, useRef, useState} from "react";
 import { Ionicons, Entypo } from '@expo/vector-icons';
-import {chatWithDoraemon} from "../../dataDemo/DataDemo";
 import {MessageChatSender, MessageChatReceiver} from "../../component/MessageChat";
-import FileViewer from 'react-native-file-viewer'
 import useListAllMessages from "../../api/useListAllMessages";
-import socket from "../../../config/SocketIOConfig";
 import { useSendMessage } from "../../api/useSendMessage";
 import MessageType from "../../constants/MessageType";
 import { v4 as uuidv4 } from 'uuid';
@@ -26,14 +23,20 @@ const handleCallVideo= () =>{
 
 }
 
+
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 
 
-
+// const listImageSelect = [];
 //xử lý button mở setting room
 
 function RoomChat({ route, navigation}) {
+    // const chatId = "519e2898-8e9d-439c-8723-83a1246bd3c9"
+    // const roomName = "hagha";
+    // const userId = "383d9e8a-60f4-49f5-af2e-04504cb5fc65"
+
+
     const { chatId, roomName } = route.params;
     console.log('PARAMS', route.params);
 
@@ -66,13 +69,14 @@ function RoomChat({ route, navigation}) {
         setMessage("");
     }
 
-    function importAll(r) {
+    //Xu ly image
+    function importAllImage(r) {
         const images = {};
         r.keys().forEach((key) => (images[key] = r(key)));
         return images;
     }
-    const imagesList = importAll(
-        require.context("../../image/fileChat", false, /\.(png|jpe?g|svg)$/)
+    const imagesList = importAllImage(
+        require.context("../../image/fileChat/image", false, /\.(png|jpe?g|svg)$/)
     );
 
     console.log(imagesList);
@@ -81,24 +85,66 @@ function RoomChat({ route, navigation}) {
     const handleOpenImage = async () =>{
         setOpenImage(!openImage)
         setopenEmoji(false)
+        setOpenFile(false)
+        setListImageSelect([]);
     }
 
+    const [listImageSelect, setListImageSelect] = useState([]);
+    const [viewSendImage, setViewSendImage] = useState(false);
+    useEffect(() => {
+        if(listImageSelect.length > 0){
+            setViewSendImage(true)
+        } else{
+            setViewSendImage(false)
+        }
+    }, [listImageSelect]);
 
 
+
+    // xu ly emoji
     const [openEmoji, setopenEmoji] = useState(false);
-    const [isEmoji, setEmoji] = useState("");
     const handleOpenEmoji = async () =>{
         setopenEmoji(!openEmoji)
         setOpenImage(false)
+        setOpenFile(false)
     }
     const selectEmoji = item =>{
 
         setMessage((prevMessage) => prevMessage + item.emoji);
     }
 
-    const handleSelectImage = (item) =>{
 
+    //xu ly file
+    function importAllFile(r) {
+        return r.keys().map((fileName) => ({
+            name: fileName,
+            file: r(fileName),
+        }));
     }
+
+    const fileList = importAllFile(
+        require.context("../../image/fileChat/file", false, /.*$/)
+    );
+    console.log(fileList)
+
+    const [listSelectFile, setListSelectFile] = useState([]);
+    const [openFile, setOpenFile] = useState(true);
+    const [viewSendFile, setViewSendFile] = useState(false);
+    const handleOpenFile = () =>{
+        setOpenFile(!openFile)
+        setOpenImage(false)
+        setopenEmoji(false)
+        setViewSendImage(false)
+        setListSelectFile([])
+    }
+    useEffect(() => {
+        if(listSelectFile.length > 0){
+            setViewSendFile(true)
+        } else{
+            setViewSendFile(false)
+        }
+    }, [listSelectFile]);
+
 
 
     return(
@@ -155,9 +201,7 @@ function RoomChat({ route, navigation}) {
                 ))}
 
             </ScrollView>
-            <View>
-                <Text>{isEmoji}</Text>
-            </View>
+
 
 
             {/*Sender input*/}
@@ -182,6 +226,12 @@ function RoomChat({ route, navigation}) {
                     />
                 </View>
                 <TouchableOpacity
+                    onPress={handleOpenFile}
+                    style={[styles.sendImage]}
+                >
+                    <MaterialCommunityIcons name="paperclip" size={25} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity
                     style={styles.sendImage}
                     onPress={handleOpenImage}
                 >
@@ -193,6 +243,7 @@ function RoomChat({ route, navigation}) {
                 >
                     <Ionicons name="send" size={24} color="black" />
                 </TouchableOpacity>
+
             </View>
 
             {openEmoji && (
@@ -204,22 +255,143 @@ function RoomChat({ route, navigation}) {
             )}
 
             {openImage &&(
-                <ScrollView style={{height:10}}>
-                    <View style={{flexDirection:'row', flexWrap:'wrap'}}>
-                        {Object.entries(imagesList).map(([key, value]) => (
-                            <TouchableOpacity
-                                onPress={handleSelectImage}
-                            >
-                                <Image key={key} source={{ uri: value }} style={{width:WIDTH/3, height:WIDTH/3}}/>
+                <View style={{height:HEIGHT/3}}>
+                    <ScrollView style={{flex:1}}>
+                        <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                            {Object.entries(imagesList).map(([key, item]) => {
+                                return(
+                                    <ImageView item={item} key={key} setListImageSelect={setListImageSelect}/>
+                                )
+                            })}
+                        </View>
+                    </ScrollView>
+                    {viewSendImage && (
+                        <View style={{position:'absolute', bottom:10, alignItems:'center', width:"100%"}}>
+                            <TouchableOpacity style={styles.btnSendImage}>
+                                <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>
+                                    Send image {listImageSelect.length}
+                                </Text>
                             </TouchableOpacity>
-                        ))}
-                    </View>
-                </ScrollView>
+                        </View>
+                    )}
+                </View>
             )}
+
+            {openFile && (
+                <View style={{height:HEIGHT/3}}>
+                    <ScrollView style={{flex:1}}>
+                        <View style={{flexDirection:'row', flexWrap:'wrap'}}>
+                            {Object.entries(fileList).map(([key, item]) => {
+                                return(
+                                    <FileView item={item} key={key} setListSelectFile={setListSelectFile}/>
+                                )
+                            })}
+                        </View>
+                    </ScrollView>
+                    {viewSendFile && (
+                        <View style={{position:'absolute', bottom:10, alignItems:'center', width:"100%"}}>
+                            <TouchableOpacity style={styles.btnSendImage}>
+                                <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>
+                                    Send image {listSelectFile.length}
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </View>
+            )}
+
+
+
 
 
         </View>
     )
 }
+
+
+function ImageView({key, item, setListImageSelect}){
+    const [selectImage, setSelectImage] = useState(false);
+    const handleSelectImage = () =>{
+        setSelectImage(!selectImage)
+
+        if(!selectImage){
+            setListImageSelect(pre => {
+                const list = [...pre];
+                list.push(item);
+                return list;
+            });
+        } else{
+            setListImageSelect(pre => {
+                const list = [...pre];
+                const findItemRemove = list.find(item=>item === item);
+                if(findItemRemove !== -1){
+                    list.splice(findItemRemove, 1);
+                }
+                return list;
+            })
+        }
+    }
+
+    return(
+        <TouchableOpacity
+            onPress={handleSelectImage}
+        >
+            <Image key={key} source={{ uri: item }} style={{width:WIDTH/3, height:WIDTH/3}}/>
+            <View style={styles.checkImage}>
+                {selectImage && (
+                    <View style={{backgroundColor:"rgba(51, 204, 255, 0.5)", flex:1, borderRadius:100}}>
+                        <Entypo name="check" size={20} color="white" />
+                    </View>
+                )}
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+function FileView({key, item, setListSelectFile }){
+
+    const [checkFileSelect, setCheckFileSelect] = useState(false)
+    const handleCheckFile = () =>{
+        setCheckFileSelect(!checkFileSelect)
+
+        if(!checkFileSelect){
+            setListSelectFile(pre => {
+                const list = [...pre];
+                list.push(item);
+                return list;
+            });
+        } else{
+            setListSelectFile(pre => {
+                const list = [...pre];
+                const findItemRemove = list.find(item=>item === item);
+                if(findItemRemove !== -1){
+                    list.splice(findItemRemove, 1);
+                }
+                return list;
+            })
+        }
+    }
+
+    return(
+        <TouchableOpacity
+            style={styles.fileView}
+            onPress={handleCheckFile}
+        >
+            <AntDesign name="filetext1" size={24} color="black" />
+            <Text style={{flex:1}}>{item.name.split("/")[1]}</Text>
+            <View style={styles.checkFile}>
+                {checkFileSelect &&(
+                    <View style={{backgroundColor:"#33CCFF", borderRadius:100, flex:1, alignItems:'center',justifyContent:"center"}}>
+                        <Entypo name="check" size={15} color="white" />
+                    </View>
+                )}
+            </View>
+        </TouchableOpacity>
+    )
+}
+
+
+
+
 
 export default RoomChat;

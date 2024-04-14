@@ -102,7 +102,11 @@ function InformationGroupRoom({navigation}) {
                             </Text>
                         </View>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.viewTouchable}>
+                    <TouchableOpacity
+
+                        style={styles.viewTouchable}
+                        onPress={()=>{navigation.navigate("SettingGroup")}}
+                    >
                         <AntDesign name="setting" size={25} color="black" />
                         <View style={styles.viewTitleTouchable}>
                             <Text style={{fontSize:18}}>

@@ -26,6 +26,7 @@ import InformationSingleRoom from "./src/screens/chatHome/InformationSingleRoom"
 import InformationGroupRoom from "./src/screens/chatHome/InformationGroupRoom";
 import SeeMembers from "./src/screens/chatHome/SeeMembers";
 import AddMember from "./src/screens/chatHome/AddMember";
+import SettingGroup from "./src/screens/chatHome/SettingGroup";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -55,6 +56,7 @@ export default function App() {
                       <Stack.Screen name="SettingUser" component={SettingUser} options={{ headerShown: false, }}/>
                       <Stack.Screen name="ChangePassword" component={ChangePassword} options={{ headerShown: false, }}/>
                       <Stack.Screen name="CreateNewGroup" component={CreateNewGroup} options={{ headerShown: false, }}/>
+                      <Stack.Screen name="SettingGroup" component={SettingGroup} options={{ headerShown: false, }}/>
 
                   </Stack.Navigator>
 

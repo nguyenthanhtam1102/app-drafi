@@ -61,9 +61,11 @@ function MessageChatSender({msg, chatId}) {
                             </View>
                         )}
                         <View>
-                            {msg.type === "image" && (<ImageChat content={msg.content}/>)}
+                            {msg.type === "image" && (
+                                <ImageChat content={msg.content}/>
+                            )}
                         </View>
-                        {msg.type === "file" && (
+                        {msg.type === "files" && (
                             <View style={styles.messageSenderText}>
                                 <FileChat content={msg.content}/>
                             </View>
@@ -102,7 +104,8 @@ function TextBox({content}){
 
 function ImageChat({content}){
 
-    const image = {uri:content}
+    const image = content.split("|")[0]
+    // const image = content;
     return(
         <View>
             <Image

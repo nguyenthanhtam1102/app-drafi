@@ -63,6 +63,41 @@ const styles = StyleSheet.create({
         padding:10,
         borderRadius:10,
     },
+    checkImage:{
+        width:30,
+        height:30,
+        backgroundColor:'rgba(225, 225, 225, 0.5)',
+        borderRadius:100,
+        position:'absolute',
+        top:5,
+        right:5,
+        borderWidth:4,
+        borderColor:'white',
+
+    },
+    btnSendImage:{
+        backgroundColor:"#33CCFF",
+        width:200,
+        height:40,
+        borderRadius:10,
+        alignItems:'center',
+        justifyContent:'center',
+    },
+    fileView:{
+        width:"100%",
+        flexDirection:'row',
+        paddingHorizontal:10,
+        paddingVertical:10,
+        borderTopWidth:1,
+        borderColor:"#DDDDDD",
+        alignItems:'center',
+    },
+    checkFile:{
+        borderWidth:1,
+        borderRadius:100,
+        width:20,
+        height:20,
+    }
 
 
 
