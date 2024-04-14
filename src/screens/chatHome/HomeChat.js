@@ -1,19 +1,12 @@
-import {FlatList, Image, ScrollView, Text, TextInput, TouchableOpacity, View} from "react-native";
+import { ScrollView, TextInput, TouchableOpacity, View} from "react-native";
 import styles from "../../css/chatHome/HomeChat";
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import {listMessage} from "../../dataDemo/DataDemo";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import MessageBox from "../../component/MessageBox";
-import {listAllParticipants} from "../../api/participantsApi";
-import useListParticipants from "../../api/useListParticipants";
 import useGetUserInfo from "../../api/useGetUserInfo";
-import { io as socketIO } from "socket.io-client";
-import {useQueryClient} from "@tanstack/react-query";
-import QueryKey from "../../constants/QueryKey";
-import socket from "../../../config/SocketIOConfig";
 import {useSelector} from "react-redux";
-// const listMessage = listMessage;
-
+import useListAllChats from "../../api/useListAllChats";
 
 function HomeChat({navigation}) {
     const user = useSelector((state) => state.userData);
@@ -21,14 +14,20 @@ function HomeChat({navigation}) {
 
     const userId = user.id;
 
-    const queryClient = useQueryClient();
-
     const { userInfo, isLoading: isLoadingUserInfo } = useGetUserInfo(userId);
-    const { participants, isLoadingParticipants } = useListParticipants(userId);
+    const { data: chats } = useListAllChats();
+
+    const [participants, setParticipants] = useState([]);
 
     console.log('USER INFO', userInfo);
     console.log(listMessage)
-    console.log('LIST ALL PARTICIPANTS', participants);
+    console.log('LIST ALL PARTICIPANTS', chats);
+
+    useEffect(() => {
+        if(chats) {
+            setParticipants(chats.filter((item)=> Array.isArray(item.participants) && item.participants.includes(userId)));
+        }
+    }, [chats]);
 
     return(
         <View style={styles.container}>
@@ -42,8 +41,14 @@ function HomeChat({navigation}) {
             <View style={styles.body}>
                 <ScrollView>
                     {participants && participants.map((item) => {
-                        let chatName = item.name.split('/');
-                        chatName = chatName[0] !== 'Nguyen Thi Thu Mo' ? chatName[0] : chatName[1];
+                        let chatName;
+                        const type = item.type;
+                        if(type === 'public') {
+                            chatName = item.name;
+                        } else {
+                            const indexParticipant = item.participants.indexOf(userId);
+                            chatName = item.name.split('/')[indexParticipant];
+                        }
                         let latestMessage = item?.messages && item?.messages?.length > 0 ? item.messages[item.messages.length - 1] : null;
 
                         console.log('LATEST MESSAGE', latestMessage);

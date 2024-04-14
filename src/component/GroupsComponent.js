@@ -2,11 +2,26 @@ import {Image, Text, TouchableOpacity, View} from "react-native";
 import {styles} from "../css/component/GroupsComponent";
 import {FontAwesome5, Ionicons} from "@expo/vector-icons";
 import MessageBox from "./MessageBox";
+import useListAllChats from "../api/useListAllChats";
+import {useEffect, useState} from "react";
+import {useSelector} from "react-redux";
 
 
 function GroupsComponent({navigation}) {
+    const user = useSelector((state) => state.userData);
+    const userId = user.id;
+    const { data: listChats } = useListAllChats();
 
-    const {listGroups} = {};
+    const [listGroups, setListGroups] = useState([]);
+
+
+    console.log('LIST ALL GROUPS', listChats);
+
+    useEffect(() => {
+        if(listChats) {
+            setListGroups(listChats.filter((item)=> Array.isArray(item.participants) && item.participants.includes(userId) && item.type === 'public'));
+        }
+    }, [listChats]);
 
     return(
         <View>
@@ -26,11 +41,20 @@ function GroupsComponent({navigation}) {
                 </Text>
 
                 {listGroups && listGroups.map((item) => {
-
-                    const roomId = "";
+                    let chatName = item.name;
+                    let latestMessage = item?.messages && item?.messages?.length > 0 ? item.messages[item.messages.length - 1] : null;
 
                     return(
-                        <MessageBox key={roomId} item={item} navigation={navigation}/>
+                        <MessageBox
+                            key={item.chatId}
+                            item={{
+                                id: item.chatId,
+                                displayName: chatName,
+                                image: item.picture,
+                                content: latestMessage,
+                            }}
+                            navigation={navigation}
+                        />
                     )
                 })}
 
