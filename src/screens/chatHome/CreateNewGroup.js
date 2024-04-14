@@ -10,7 +10,6 @@ import {useSelector} from "react-redux";
 //list lưu thành viên được choọn
 const listAddInGroupId = [];
 
-
 function CreateNewGroup({navigation}){
 
     const user = useSelector((state) => state.userData);

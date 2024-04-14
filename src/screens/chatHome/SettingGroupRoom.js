@@ -1,9 +1,13 @@
 import {Image, ScrollView, Text, TouchableOpacity, View} from "react-native";
-import {styles} from "../../css/chatHome/SettingRoom";
-import {FontAwesome, Foundation, Octicons} from "@expo/vector-icons";
-import { Feather } from '@expo/vector-icons';
+import {styles} from "../../css/chatHome/SettingGroupRoom";
+import {AntDesign, Entypo, Feather, FontAwesome, Foundation, Octicons} from "@expo/vector-icons";
 
-function SettingRoom({navigation}){
+
+function SettingGroupRoom() {
+
+
+
+
     return(
         <View style={styles.container}>
 
@@ -53,11 +57,11 @@ function SettingRoom({navigation}){
                             // onPress={}
                         >
                             <View style={styles.button}>
-                                <Feather name="user" size={20} color="black" />
+                                <Feather name="user-plus" size={20} color="black" />
                             </View>
                             <View style={{alignItems:'center', marginTop:5}}>
-                                <Text>Personal</Text>
-                                <Text>page</Text>
+                                <Text>Add</Text>
+                                <Text>member</Text>
                             </View>
                         </TouchableOpacity>
                         {/*Change background*/}
@@ -88,11 +92,49 @@ function SettingRoom({navigation}){
                     </View>
                 </View>
 
+                <View style={{flex:1, marginTop:15, backgroundColor:'white'}}>
+                    <TouchableOpacity style={styles.viewTouchable}>
+                        <FontAwesome name="group" size={25} color="black" />
+                        <View style={styles.viewTitleTouchable}>
+                            <Text style={{fontSize:18}}>
+                                See members
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.viewTouchable}>
+                        <AntDesign name="setting" size={25} color="black" />
+                        <View style={styles.viewTitleTouchable}>
+                            <Text style={{fontSize:18}}>
+                                Setting group
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.viewTouchable}>
+                        <Feather name="trash" size={24} color="red" />
+                        <View style={styles.viewTitleTouchable}>
+                            <Text style={{fontSize:18, color:'red'}}>
+                                Delete chats history
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.viewTouchable}>
+                        <Entypo name="log-out" size={24} color="red" />
+                        <View style={styles.viewTitleTouchable}>
+                            <Text style={{fontSize:18, color:"red"}}>
+                                Exitt group
+                            </Text>
+                        </View>
+                    </TouchableOpacity>
+
+
+                </View>
+
 
             </ScrollView>
 
         </View>
     )
+
 }
 
-export default SettingRoom;
+export default SettingGroupRoom;
