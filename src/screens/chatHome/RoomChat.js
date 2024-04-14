@@ -33,15 +33,16 @@ const HEIGHT = Dimensions.get('window').height;
 
 //xử lý button mở setting room
 
-function RoomChat({navigation}) {
+function RoomChat({ route, navigation}) {
+    const { chatId, roomName } = route.params;
+    console.log('PARAMS', route.params);
 
     //lấy my user từ redux
     const user = useSelector((state) => state.userData);
-
-
-    const roomName = 'Nguyen Thanh Tam';
     const userId = user.id;
-    const chatId = '13343a76-d078-45b2-96f0-0a4b6114cb24';
+    const displayName = user.display_name;
+
+    console.log('UUUUU', user);
 
     const { messages, isLoadingAllMessage } = useListAllMessages(chatId);
     const [message, setMessage] = useState('');
@@ -56,7 +57,7 @@ function RoomChat({navigation}) {
             chatId: chatId,
             messageId: uuidv4(),
             senderId: userId,
-            senderName: 'Nguyen Thanh Tam',
+            senderName: displayName,
             senderPicture: 'https://vn.portal-pokemon.com/play/resources/pokedex/img/pm/5794f0251b1180998d72d1f8568239620ff5279c.png',
             type: MessageType.TEXT,
             content: message,

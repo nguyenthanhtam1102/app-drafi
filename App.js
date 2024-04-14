@@ -17,15 +17,12 @@ import FriendRequest from "./src/screens/chatHome/FriendRequest";
 import PersonalPage from "./src/screens/userpage/PersonalPage";
 import FindUser from "./src/screens/userpage/FindUser";
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
-import socket, {notificationSocket} from "./config/SocketIOConfig";
-import QueryKey from "./src/constants/QueryKey";
-import {useEffect} from "react";
 import SettingUser from "./src/screens/userpage/SettingUser";
 import ChangePassword from "./src/screens/userpage/ChangePassword";
-import {Provider} from "react-redux";
+import {Provider, useSelector} from "react-redux";
 import store from "./src/redux/store";
 import CreateNewGroup from "./src/screens/chatHome/CreateNewGroup";
-
+import MainApp from "./MainApp";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,41 +30,11 @@ const Tab = createBottomTabNavigator();
 const queryClient = new QueryClient();
 
 export default function App() {
-    const userId = 'cec3f3b8-4cb4-4d96-99a9-e5b3d4d4d559';
-
-    useEffect(() => {
-        if (socket) {
-            socket.emit("add-user", userId);
-            notificationSocket.emit("add-user", userId);
-
-            socket.on("msg-recieve-private", (data) => {
-                console.log(data)
-
-                const chatId = data.from;
-                queryClient.invalidateQueries({ queryKey: [QueryKey.LIST_ALL_PARTICIPANTS] });
-                queryClient.invalidateQueries({ queryKey: [`${QueryKey.LIST_ALL_MESSAGES}_${chatId}`] });
-            });
-
-            socket.on("msg-recieve-public", (data) => {
-                console.log(data);
-            });
-
-            notificationSocket.on("friendRequest", (data) => {
-                console.log('FRIEND REQUEST', data);
-                queryClient.invalidateQueries({ queryKey: [QueryKey.LIST_ALL_ADD_FRIEND_REQUEST_RECEIVED] });
-            });
-
-            notificationSocket.on("acceptFriend", (data) => {
-                console.log('ACCEPT FRIEND', data);
-            });
-        }
-    }, []);
-
     return (
       <QueryClientProvider client={queryClient}>
           <Provider store={store}>
               <NavigationContainer>
-                  <Stack.Navigator initialRouteName={"HomeChat"}>
+                  <Stack.Navigator initialRouteName={"Login"}>
                       <Stack.Screen name='HomeLogin' component={HomeLogin} options={{ headerShown: false, }} />
                       <Stack.Screen name='Login' component={Login} />
                       <Stack.Screen name='Register' component={Register} />
@@ -84,6 +51,8 @@ export default function App() {
                       <Stack.Screen name="CreateNewGroup" component={CreateNewGroup} options={{ headerShown: false, }}/>
 
                   </Stack.Navigator>
+
+                  <MainApp/>
               </NavigationContainer>
           </Provider>
       </QueryClientProvider>
